@@ -4,5 +4,9 @@
     },
     "requires": {
         "db": "hana"
+    },
+    "features":{
+        "assert_integrity": "db"
     }
+
 }
