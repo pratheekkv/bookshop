@@ -24,4 +24,4 @@ service AdminService
     @odata.draft.enabled entity Orders as select from my.Orders;
 }
 
-annotate AdminService with @requires :[ 'authenticated-user' ];
+annotate AdminService with @requires :[ 'admin' ];
