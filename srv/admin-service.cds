@@ -27,6 +27,6 @@ service AdminService
 annotate AdminService.Authors with @requires :[ 'privileged-user' ]; 
 
 annotate AdminService.Orders with @restrict: [
-     { grant: '*',to: 'user',
+     { grant: ['READ','UPDATE'],to: 'user',
        where: 'buyer = $user' } ]; 
 
