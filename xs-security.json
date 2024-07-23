@@ -18,6 +18,15 @@
         "$XSAPPNAME.admin"
       ],
       "attribute-references": []
+    },
+    {
+      "name": "user",
+      "description": "generated",
+      "scope-references": [
+        "$XSAPPNAME.user"
+      ],
+      "attribute-references": []
     }
+
   ]
 }
