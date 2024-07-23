@@ -5,3 +5,21 @@ spring:
   sql.init.schema-locations: classpath:schema-h2.sql
 cds:
   data-source.auto-config.enabled: false
+  odata-v4:
+    endpoint.path: "/api"
+  security:
+    authentication.normalize-provider-tenant: true
+    mock.users:
+      admin:
+        password: admin
+        roles:
+        - admin
+        attributes:
+          businessPartner:
+          - "10401010"
+      user:
+        password: user  
+
+      privi:
+        password: privi
+        privileged: true
