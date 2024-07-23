@@ -27,6 +27,7 @@ modules:
           srv-url: ${default-url}
     requires:
       - name: bookshop-db
+      - name: bookshop-auth
 
   - name: bookshop-db-deployer
     type: hdb
@@ -46,3 +47,12 @@ resources:
     parameters:
       service: hana
       service-plan: hdi-shared
+  - name: bookshop-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: bookshop-${org}-${space}
+        tenant-mode: dedicated

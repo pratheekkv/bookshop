@@ -1,24 +1,27 @@
-using {sap.common.Languages as CommonLanguages} from '@sap/cds/common';
-using {my.bookshop as my} from '../db/index';
-using {sap.changelog as changelog} from 'com.sap.cds/change-tracking';
+using { sap.common.Languages as CommonLanguages } from '@sap/cds/common';
 
-extend my.Orders with changelog.changeTracked;
+using { my.bookshop as my } from '../db/index';
 
 @path : 'admin'
-service AdminService @(requires : 'admin') {
-    
-  entity Books   as projection on my.Books  actions {
-    action addToOrder(order_ID : UUID, quantity : Integer) returns Orders;
-  };
+service AdminService 
+{
+    annotate Orders
+    {
+        OrderNo
+            @mandatory
+            @title : '{i18n>OrderNumber}';
+        total
+            @readonly;
+    }
 
-  entity Authors as projection on my.Authors;
-  entity Orders  as select from my.Orders;
+    @odata.draft.enabled
+    entity Books as projection on my.Books actions {
+            action addToOrder ( order_ID : UUID, quantity : Integer ) returns Orders;
+        };
 
+    entity Authors as projection on my.Authors;
+
+    @odata.draft.enabled entity Orders as select from my.Orders;
 }
 
-
-// Enable Fiori Draft for Orders
-annotate AdminService.Orders with @odata.draft.enabled;
-annotate AdminService.Books with @odata.draft.enabled;
-
-
+annotate AdminService with @requires :[ 'authenticated-user' ];
