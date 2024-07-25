@@ -24,9 +24,11 @@ service AdminService
 
     @odata.draft.enabled entity Orders as select from my.Orders;
 
-    entity ExternalBooks as projection on Bookshop1.Books;
-
-    entity ExternalGenres as projection on Bookshop1.Genres;
+    entity ExternalBooks as projection on Bookshop1.Books{
+        ID,
+        title,
+        descr
+    };
 }
 
 annotate AdminService.Authors with @requires :[ 'privileged-user' ]; 
