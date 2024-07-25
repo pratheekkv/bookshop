@@ -2,11 +2,12 @@ using { sap.common.Languages as CommonLanguages } from '@sap/cds/common';
 
 using { my.bookshop as my } from '../db/index';
 
+using Bookshop1 from '../srv/external/Bookshop1';
+
 @path : 'admin'
 service AdminService 
 {
-    annotate Orders
-    {
+    annotate Orders {
         OrderNo
             @mandatory
             @title : '{i18n>OrderNumber}';
@@ -22,6 +23,10 @@ service AdminService
     entity Authors as projection on my.Authors;
 
     @odata.draft.enabled entity Orders as select from my.Orders;
+
+    entity ExternalBooks as projection on Bookshop1.Books;
+
+    entity ExternalGenres as projection on Bookshop1.Genres;
 }
 
 annotate AdminService.Authors with @requires :[ 'privileged-user' ]; 
