@@ -6,6 +6,14 @@ pipeline {
         CF_CRED = credentials('CF-TECHUSER')
     }
     stages {
+        stage('Abc') {
+            steps {
+
+                dockerExecute(script: this, dockerImage: 'karma-ui5.int.repositories.cloud.sap/karma-ui5:latest', dockerWorkspace: '/') {
+                  sh "cd srv && mvn clean install"
+                }
+            }
+        }
         stage('Install') {
             steps {
 
