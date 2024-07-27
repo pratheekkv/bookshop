@@ -434,5 +434,6 @@ entity Bookshop1.Currencies_texts {
 };
 
 @cds.external : true
+@path : 'admin'
 service Bookshop1 {};
 
