@@ -20,7 +20,7 @@
 		<cds.services.version>3.0.0-m2428</cds.services.version>
 		<spring.boot.version>3.3.1</spring.boot.version>
 		<cds.install-cdsdk.version>7.9.4</cds.install-cdsdk.version>
-
+		<cf-java-logging-support.version>3.8.3</cf-java-logging-support.version>
 		<cds.install-node.downloadUrl>https://nodejs.org/dist/</cds.install-node.downloadUrl>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
