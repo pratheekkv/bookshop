@@ -34,7 +34,7 @@ public class AdminServiceHandler implements EventHandler{
 
     @On(entity = Books_.CDS_NAME)
     Result readSuppliers(CdsReadEventContext context) {
-     CqnSelect select = Select.from(Bookshop1_.CDS_NAME).limit(100);
+     CqnSelect select = Select.from(Books_.CDS_NAME).limit(100);
      List<Bookshop1> businessPartner = bupa.run(select).listOf(Bookshop1.class);
      return null;
   }
