@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<configuration debug="false" scan="false">
+	<springProfile name="cloud">
+		<!-- logback configuration of ConsoleAppender according
+		     to cf-java-logging-support documentation -->
+		...
+	</springProfile>
+	<springProfile name="!cloud">
+		<include resource="org/springframework/boot/logging/logback/base.xml"/>
+	</springProfile>
+</configuration>

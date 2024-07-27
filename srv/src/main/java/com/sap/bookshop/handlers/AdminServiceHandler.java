@@ -2,6 +2,8 @@ package com.sap.bookshop.handlers;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -25,6 +27,8 @@ import cds.gen.bookshop1.Books;
 @ServiceName(AdminService_.CDS_NAME)
 public class AdminServiceHandler implements EventHandler{
 
+    private static Logger logger = LoggerFactory.getLogger(AdminServiceHandler.class);
+
     @Autowired
     @Qualifier(Bookshop1_.CDS_NAME)
     CqnService bupa;
@@ -35,8 +39,13 @@ public class AdminServiceHandler implements EventHandler{
     @On(entity = Books_.CDS_NAME)
     Result readSuppliers(CdsReadEventContext context) {
       System.out.println("Pratheek");
-     CqnSelect select = Select.from(cds.gen.bookshop1.Books_.CDS_NAME).limit(100);
-     List<Books> businessPartner = bupa.run(select).listOf(Books.class);
+      try{
+        CqnSelect select = Select.from(cds.gen.bookshop1.Books_.CDS_NAME).limit(100);
+        List<Books> businessPartner = bupa.run(select).listOf(Books.class);
+      }catch(Exception e){
+        logger.error("Pratheek>>", e);
+      }
+     
      return null;
   }
 

@@ -28,6 +28,7 @@ modules:
     requires:
       - name: bookshop-db
       - name: bookshop-auth
+      - name: application-logs
 
   - name: bookshop-db-deployer
     type: hdb
@@ -56,3 +57,7 @@ resources:
       config:
         xsappname: bookshop-${org}-${space}
         tenant-mode: dedicated
+  - name: application-logs
+    type: org.cloudfoundry.managed-service
+    parameters:
+     service: application-logs
