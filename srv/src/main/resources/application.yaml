@@ -37,3 +37,4 @@ cds:
       type: "odata-v4"
       destination:
         name: "bookshop1"
+        tokenExchangeStrategy: "ForwardUserToken"
