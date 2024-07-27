@@ -15,7 +15,8 @@ service AdminService
 
 
     @odata.draft.enabled entity Orders as select from my.Orders;
-
+@cds.persistence.skip
+@cds
     entity Books as projection on Bookshop1.Books { 
         ID,
         title,
