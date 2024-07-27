@@ -6,8 +6,9 @@ spring:
 cds:
   remote.services:
     Bookshop1:
+      type: "odata-v4"
       destination:
-        type: "odata-v4"
+        name: "bookshop1"
   data-source.auto-config.enabled: false
   odata-v4:
     endpoint.path: "/api"

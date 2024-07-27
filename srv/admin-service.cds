@@ -16,11 +16,18 @@ service AdminService
 
     @odata.draft.enabled entity Orders as select from my.Orders;
 
-    entity Books as projection on Bookshop1.Books{
+    entity Books as projection on Bookshop1.Books { 
         ID,
         title,
         descr
     };
+    
+}
+
+
+extend my.OrderItems {
+  book_ID : type of Bookshop1.Books:ID; 
+  book      : Association to Bookshop1.Books on book.ID = book_ID  @mandatory @assert.target;
 }
 
 // annotate AdminService.Authors with @requires :[ 'privileged-user' ]; 
