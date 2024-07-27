@@ -17,10 +17,10 @@ import com.sap.cds.services.handler.annotations.On;
 import com.sap.cds.services.handler.annotations.ServiceName;
 import static com.sap.cds.ResultBuilder.selectedRows;
 
-import cds.gen.bookshop1.Books_;
-import cds.gen.bookshop1.Bookshop1;
+import cds.gen.adminservice.Books_;
 import cds.gen.bookshop1.Bookshop1_;
 import cds.gen.adminservice.AdminService_;
+import cds.gen.bookshop1.Books;
 @Component
 @ServiceName(AdminService_.CDS_NAME)
 public class AdminServiceHandler implements EventHandler{
@@ -34,8 +34,8 @@ public class AdminServiceHandler implements EventHandler{
 
     @On(entity = Books_.CDS_NAME)
     Result readSuppliers(CdsReadEventContext context) {
-     CqnSelect select = Select.from(Books_.CDS_NAME).limit(100);
-     List<Bookshop1> businessPartner = bupa.run(select).listOf(Bookshop1.class);
+     CqnSelect select = Select.from(cds.gen.bookshop1.Books_.CDS_NAME).limit(100);
+     List<Books> businessPartner = bupa.run(select).listOf(Books.class);
      return null;
   }
 
