@@ -54,15 +54,14 @@
 		<dependency>
 			<groupId>com.sap.cloud.sdk.cloudplatform</groupId>
 			<artifactId>scp-cf</artifactId>
-			<version>4.20.0</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/com.sap.cloud.security/env -->
+		<!-- https://mvnrepository.com/artifact/com.sap.cloud.security/env
 <dependency>
     <groupId>com.sap.cloud.security</groupId>
     <artifactId>env</artifactId>
     <version>3.5.2</version>
-</dependency>
+</dependency> -->
 
 <dependency>
     <groupId>com.sap.cloud.sdk.cloudplatform</groupId>
