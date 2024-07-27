@@ -29,6 +29,7 @@ modules:
       - name: bookshop-db
       - name: bookshop-auth
       - name: application-logs
+      - name: destination-srv
 
   - name: bookshop-db-deployer
     type: hdb
@@ -62,3 +63,8 @@ resources:
     parameters:
      service: application-logs
      service-plan: lite
+  - name: destination-srv
+    type: org.cloudfoundry.managed-service
+    parameters: 
+      service: destination  
+      service-plan: lite
