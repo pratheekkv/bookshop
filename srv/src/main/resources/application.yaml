@@ -28,3 +28,12 @@ cds:
       privi:
         password: privi
         privileged: true
+---
+spring:
+  config.activate.on-profile: cloud
+cds:
+  remote.services:
+    Bookshop1:
+      type: "odata-v4"
+      destination:
+        name: "bookshop1"
