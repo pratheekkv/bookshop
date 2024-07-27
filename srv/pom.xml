@@ -57,6 +57,13 @@
 			<version>4.20.0</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.sap.cloud.security/env -->
+<dependency>
+    <groupId>com.sap.cloud.security</groupId>
+    <artifactId>env</artifactId>
+    <version>3.5.2</version>
+</dependency>
+
 		<dependency>
 			<groupId>com.sap.hcp.cf.logging</groupId>
 			<artifactId>cf-java-logging-support-logback</artifactId>

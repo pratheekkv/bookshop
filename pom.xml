@@ -48,8 +48,6 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-		</dependencies>
-		<dependencies>
 			<dependency>
 				<groupId>com.sap.cloud.sdk</groupId>
 				<artifactId>sdk-bom</artifactId>
