@@ -21,7 +21,6 @@ import cds.gen.bookshop1.Books_;
 import cds.gen.bookshop1.Bookshop1;
 import cds.gen.bookshop1.Bookshop1_;
 import cds.gen.adminservice.AdminService_;
-import cds.gen.adminservice.ExternalBooks_;
 @Component
 @ServiceName(AdminService_.CDS_NAME)
 public class AdminServiceHandler implements EventHandler{
@@ -33,7 +32,7 @@ public class AdminServiceHandler implements EventHandler{
     @Autowired
     private ApplicationContext applicationContext;
 
-    @On(entity = ExternalBooks_.CDS_NAME)
+    @On(entity = Books_.CDS_NAME)
     Result readSuppliers(CdsReadEventContext context) {
      CqnSelect select = Select.from(Bookshop1_.CDS_NAME).limit(100);
      List<Bookshop1> businessPartner = bupa.run(select).listOf(Bookshop1.class);
