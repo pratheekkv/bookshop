@@ -10,6 +10,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.sap.cds.Result;
+import com.sap.cds.ResultBuilder;
 import com.sap.cds.ql.Select;
 import com.sap.cds.ql.cqn.CqnSelect;
 import com.sap.cds.services.cds.CdsReadEventContext;
@@ -37,16 +38,15 @@ public class AdminServiceHandler implements EventHandler{
     private ApplicationContext applicationContext;
 
     @On(entity = Books_.CDS_NAME)
-    Result readSuppliers(CdsReadEventContext context) {
+    void readSuppliers(CdsReadEventContext context) {
       System.out.println("Pratheek");
       try{
         CqnSelect select = Select.from(cds.gen.bookshop1.Books_.CDS_NAME).limit(100);
         List<Books> businessPartner = bupa.run(select).listOf(Books.class);
+        context.setResult(ResultBuilder.selectedRows(businessPartner).inlineCount(businessPartner.size()).result());
       }catch(Exception e){
-        logger.error("Pratheek>>", e);
+        logger.error("Exception Occurred during READ of AdminService.Books", e);
       }
-     
-     return null;
   }
 
 }
