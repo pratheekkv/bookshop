@@ -39,7 +39,9 @@ cds:
     #     name: "bookshop1"
     #     tokenExchangeStrategy: "ForwardUserToken"
     Bookshop1:
+      http:
+        suffix: "/odata/v4"
       binding:
         name: bookshop-auth
         options:
-          url: https://rmtest-rmcfkvpr-myspace-bookshop1-srv.cfapps.sap.hana.ondemand.com/odata/v4
+          url: https://rmtest-rmcfkvpr-myspace-bookshop1-srv.cfapps.sap.hana.ondemand.com
