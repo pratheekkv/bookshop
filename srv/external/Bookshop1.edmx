@@ -29,11 +29,6 @@
         <EntitySet Name="Authors" EntityType="AdminService.Authors">
           <NavigationPropertyBinding Path="books" Target="Books"/>
         </EntitySet>
-        <EntitySet Name="Orders" EntityType="AdminService.Orders">
-          <NavigationPropertyBinding Path="Items" Target="OrderItems"/>
-          <NavigationPropertyBinding Path="currency" Target="Currencies"/>
-          <NavigationPropertyBinding Path="SiblingEntity" Target="Orders"/>
-        </EntitySet>
         <EntitySet Name="Genres" EntityType="AdminService.Genres">
           <NavigationPropertyBinding Path="parent" Target="Genres"/>
           <NavigationPropertyBinding Path="children" Target="Genres"/>
@@ -43,11 +38,6 @@
         <EntitySet Name="Currencies" EntityType="AdminService.Currencies">
           <NavigationPropertyBinding Path="texts" Target="Currencies_texts"/>
           <NavigationPropertyBinding Path="localized" Target="Currencies_texts"/>
-        </EntitySet>
-        <EntitySet Name="OrderItems" EntityType="AdminService.OrderItems">
-          <NavigationPropertyBinding Path="parent" Target="Orders"/>
-          <NavigationPropertyBinding Path="book" Target="Books"/>
-          <NavigationPropertyBinding Path="SiblingEntity" Target="OrderItems"/>
         </EntitySet>
         <EntitySet Name="Books_texts" EntityType="AdminService.Books_texts">
           <NavigationPropertyBinding Path="SiblingEntity" Target="Books_texts"/>
@@ -108,32 +98,6 @@
         <Property Name="placeOfDeath" Type="Edm.String"/>
         <NavigationProperty Name="books" Type="Collection(AdminService.Books)" Partner="author"/>
       </EntityType>
-      <EntityType Name="Orders">
-        <Key>
-          <PropertyRef Name="ID"/>
-          <PropertyRef Name="IsActiveEntity"/>
-        </Key>
-        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
-        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
-        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
-        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
-        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
-        <Property Name="OrderNo" Type="Edm.String"/>
-        <NavigationProperty Name="Items" Type="Collection(AdminService.OrderItems)" Partner="parent">
-          <OnDelete Action="Cascade"/>
-        </NavigationProperty>
-        <Property Name="buyer" Type="Edm.String" MaxLength="255"/>
-        <Property Name="total" Type="Edm.Decimal" Precision="9" Scale="2"/>
-        <NavigationProperty Name="currency" Type="AdminService.Currencies">
-          <ReferentialConstraint Property="currency_code" ReferencedProperty="code"/>
-        </NavigationProperty>
-        <Property Name="currency_code" Type="Edm.String" MaxLength="3"/>
-        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
-        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
-        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
-        <NavigationProperty Name="DraftAdministrativeData" Type="AdminService.DraftAdministrativeData" ContainsTarget="true"/>
-        <NavigationProperty Name="SiblingEntity" Type="AdminService.Orders"/>
-      </EntityType>
       <EntityType Name="Genres">
         <Key>
           <PropertyRef Name="ID"/>
@@ -170,28 +134,6 @@
         <NavigationProperty Name="localized" Type="AdminService.Currencies_texts">
           <ReferentialConstraint Property="code" ReferencedProperty="code"/>
         </NavigationProperty>
-      </EntityType>
-      <EntityType Name="OrderItems">
-        <Key>
-          <PropertyRef Name="ID"/>
-          <PropertyRef Name="IsActiveEntity"/>
-        </Key>
-        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
-        <NavigationProperty Name="parent" Type="AdminService.Orders" Partner="Items">
-          <ReferentialConstraint Property="parent_ID" ReferencedProperty="ID"/>
-        </NavigationProperty>
-        <Property Name="parent_ID" Type="Edm.Guid"/>
-        <NavigationProperty Name="book" Type="AdminService.Books">
-          <ReferentialConstraint Property="book_ID" ReferencedProperty="ID"/>
-        </NavigationProperty>
-        <Property Name="book_ID" Type="Edm.Guid"/>
-        <Property Name="quantity" Type="Edm.Int32"/>
-        <Property Name="amount" Type="Edm.Decimal" Precision="9" Scale="2"/>
-        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
-        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
-        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
-        <NavigationProperty Name="DraftAdministrativeData" Type="AdminService.DraftAdministrativeData" ContainsTarget="true"/>
-        <NavigationProperty Name="SiblingEntity" Type="AdminService.OrderItems"/>
       </EntityType>
       <EntityType Name="DraftAdministrativeData">
         <Key>
@@ -246,22 +188,11 @@
         <Parameter Name="in" Type="AdminService.Books"/>
         <Parameter Name="order_ID" Type="Edm.Guid"/>
         <Parameter Name="quantity" Type="Edm.Int32"/>
-        <ReturnType Type="AdminService.Orders"/>
       </Action>
       <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
         <Parameter Name="in" Type="AdminService.Books"/>
         <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
         <ReturnType Type="AdminService.Books"/>
-      </Action>
-      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
-        <Parameter Name="in" Type="AdminService.Orders"/>
-        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
-        <ReturnType Type="AdminService.Orders"/>
-      </Action>
-      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
-        <Parameter Name="in" Type="AdminService.OrderItems"/>
-        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
-        <ReturnType Type="AdminService.OrderItems"/>
       </Action>
       <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
         <Parameter Name="in" Type="AdminService.Books_texts"/>
@@ -272,19 +203,10 @@
         <Parameter Name="in" Type="AdminService.Books"/>
         <ReturnType Type="AdminService.Books"/>
       </Action>
-      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
-        <Parameter Name="in" Type="AdminService.Orders"/>
-        <ReturnType Type="AdminService.Orders"/>
-      </Action>
       <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
         <Parameter Name="in" Type="AdminService.Books"/>
         <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
         <ReturnType Type="AdminService.Books"/>
-      </Action>
-      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
-        <Parameter Name="in" Type="AdminService.Orders"/>
-        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
-        <ReturnType Type="AdminService.Orders"/>
       </Action>
       <Annotations Target="AdminService.EntityContainer/Books">
         <Annotation Term="Common.DraftRoot">
@@ -422,94 +344,6 @@
         <Annotation Term="PersonalData.IsPotentiallySensitive" Bool="true"/>
         <Annotation Term="Validation.Pattern" String="^\p{Lu}.*"/>
       </Annotations>
-      <Annotations Target="AdminService.EntityContainer/Orders">
-        <Annotation Term="Common.DraftRoot">
-          <Record Type="Common.DraftRootType">
-            <PropertyValue Property="ActivationAction" String="AdminService.draftActivate"/>
-            <PropertyValue Property="EditAction" String="AdminService.draftEdit"/>
-            <PropertyValue Property="PreparationAction" String="AdminService.draftPrepare"/>
-          </Record>
-        </Annotation>
-      </Annotations>
-      <Annotations Target="AdminService.Orders/ID">
-        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
-      </Annotations>
-      <Annotations Target="AdminService.Orders/createdAt">
-        <Annotation Term="UI.HiddenFilter" Bool="true"/>
-        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
-        <Annotation Term="Core.Immutable" Bool="true"/>
-        <Annotation Term="Core.Computed" Bool="true"/>
-        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
-      </Annotations>
-      <Annotations Target="AdminService.Orders/createdBy">
-        <Annotation Term="UI.HiddenFilter" Bool="true"/>
-        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
-        <Annotation Term="Core.Immutable" Bool="true"/>
-        <Annotation Term="Core.Computed" Bool="true"/>
-        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
-        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
-      </Annotations>
-      <Annotations Target="AdminService.Orders/modifiedAt">
-        <Annotation Term="UI.HiddenFilter" Bool="true"/>
-        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
-        <Annotation Term="Core.Computed" Bool="true"/>
-        <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
-      </Annotations>
-      <Annotations Target="AdminService.Orders/modifiedBy">
-        <Annotation Term="UI.HiddenFilter" Bool="true"/>
-        <Annotation Term="UI.ExcludeFromNavigationContext" Bool="true"/>
-        <Annotation Term="Core.Computed" Bool="true"/>
-        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
-        <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
-      </Annotations>
-      <Annotations Target="AdminService.Orders/OrderNo">
-        <Annotation Term="Common.Label" String="{i18n>OrderNumber}"/>
-        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
-      </Annotations>
-      <Annotations Target="AdminService.Orders/buyer">
-        <Annotation Term="Common.Label" String="{i18n>UserID}"/>
-        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
-      </Annotations>
-      <Annotations Target="AdminService.Orders/total">
-        <Annotation Term="Core.Computed" Bool="true"/>
-      </Annotations>
-      <Annotations Target="AdminService.Orders/currency">
-        <Annotation Term="Common.Label" String="{i18n>Currency}"/>
-        <Annotation Term="Core.Description" String="{i18n>CurrencyCode.Description}"/>
-      </Annotations>
-      <Annotations Target="AdminService.Orders/currency_code">
-        <Annotation Term="Common.Label" String="{i18n>Currency}"/>
-        <Annotation Term="Common.ValueList">
-          <Record Type="Common.ValueListType">
-            <PropertyValue Property="Label" String="{i18n>Currency}"/>
-            <PropertyValue Property="CollectionPath" String="Currencies"/>
-            <PropertyValue Property="Parameters">
-              <Collection>
-                <Record Type="Common.ValueListParameterInOut">
-                  <PropertyValue Property="LocalDataProperty" PropertyPath="currency_code"/>
-                  <PropertyValue Property="ValueListProperty" String="code"/>
-                </Record>
-                <Record Type="Common.ValueListParameterDisplayOnly">
-                  <PropertyValue Property="ValueListProperty" String="name"/>
-                </Record>
-              </Collection>
-            </PropertyValue>
-          </Record>
-        </Annotation>
-        <Annotation Term="Core.Description" String="{i18n>CurrencyCode.Description}"/>
-      </Annotations>
-      <Annotations Target="AdminService.Orders/IsActiveEntity">
-        <Annotation Term="UI.Hidden" Bool="true"/>
-      </Annotations>
-      <Annotations Target="AdminService.Orders/HasActiveEntity">
-        <Annotation Term="UI.Hidden" Bool="true"/>
-      </Annotations>
-      <Annotations Target="AdminService.Orders/HasDraftEntity">
-        <Annotation Term="UI.Hidden" Bool="true"/>
-      </Annotations>
-      <Annotations Target="AdminService.Orders/DraftAdministrativeData">
-        <Annotation Term="UI.Hidden" Bool="true"/>
-      </Annotations>
       <Annotations Target="AdminService.Genres">
         <Annotation Term="UI.Identification">
           <Collection>
@@ -568,31 +402,6 @@
       </Annotations>
       <Annotations Target="AdminService.Currencies/minorUnit">
         <Annotation Term="Common.Label" String="{i18n>CurrencyMinorUnit}"/>
-      </Annotations>
-      <Annotations Target="AdminService.EntityContainer/OrderItems">
-        <Annotation Term="Common.DraftNode">
-          <Record Type="Common.DraftNodeType">
-            <PropertyValue Property="PreparationAction" String="AdminService.draftPrepare"/>
-          </Record>
-        </Annotation>
-      </Annotations>
-      <Annotations Target="AdminService.OrderItems/ID">
-        <Annotation Term="Core.ComputedDefaultValue" Bool="true"/>
-      </Annotations>
-      <Annotations Target="AdminService.OrderItems/book_ID">
-        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
-      </Annotations>
-      <Annotations Target="AdminService.OrderItems/IsActiveEntity">
-        <Annotation Term="UI.Hidden" Bool="true"/>
-      </Annotations>
-      <Annotations Target="AdminService.OrderItems/HasActiveEntity">
-        <Annotation Term="UI.Hidden" Bool="true"/>
-      </Annotations>
-      <Annotations Target="AdminService.OrderItems/HasDraftEntity">
-        <Annotation Term="UI.Hidden" Bool="true"/>
-      </Annotations>
-      <Annotations Target="AdminService.OrderItems/DraftAdministrativeData">
-        <Annotation Term="UI.Hidden" Bool="true"/>
       </Annotations>
       <Annotations Target="AdminService.DraftAdministrativeData">
         <Annotation Term="Common.Label" String="{i18n>Draft_DraftAdministrativeData}"/>

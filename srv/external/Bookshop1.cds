@@ -1,4 +1,4 @@
-/* checksum : 1c16baf7d47329c13299733845d54855 */
+/* checksum : 5d93cb34df0027076a38d753d4719e2b */
 @cds.external : true
 @cds.persistence.skip : true
 @Common.DraftRoot : {
@@ -101,7 +101,7 @@ entity Bookshop1.Books {
     ![in] : $self,
     order_ID : UUID,
     quantity : Integer
-  ) returns Bookshop1.Orders;
+  );
   action draftPrepare(
     ![in] : $self,
     SideEffectsQualifier : LargeString
@@ -163,99 +163,6 @@ entity Bookshop1.Authors {
 
 @cds.external : true
 @cds.persistence.skip : true
-@Common.DraftRoot : {
-  $Type: 'Common.DraftRootType',
-  ActivationAction: 'Bookshop1.draftActivate',
-  EditAction: 'Bookshop1.draftEdit',
-  PreparationAction: 'Bookshop1.draftPrepare'
-}
-entity Bookshop1.Orders {
-  @Core.ComputedDefaultValue : true
-  key ID : UUID not null;
-  @odata.Precision : 7
-  @odata.Type : 'Edm.DateTimeOffset'
-  @UI.HiddenFilter : true
-  @UI.ExcludeFromNavigationContext : true
-  @Core.Immutable : true
-  @Core.Computed : true
-  @Common.Label : '{i18n>CreatedAt}'
-  createdAt : Timestamp;
-  /** {i18n>UserID.Description} */
-  @UI.HiddenFilter : true
-  @UI.ExcludeFromNavigationContext : true
-  @Core.Immutable : true
-  @Core.Computed : true
-  @Common.Label : '{i18n>CreatedBy}'
-  createdBy : String(255);
-  @odata.Precision : 7
-  @odata.Type : 'Edm.DateTimeOffset'
-  @UI.HiddenFilter : true
-  @UI.ExcludeFromNavigationContext : true
-  @Core.Computed : true
-  @Common.Label : '{i18n>ChangedAt}'
-  modifiedAt : Timestamp;
-  /** {i18n>UserID.Description} */
-  @UI.HiddenFilter : true
-  @UI.ExcludeFromNavigationContext : true
-  @Core.Computed : true
-  @Common.Label : '{i18n>ChangedBy}'
-  modifiedBy : String(255);
-  @Common.Label : '{i18n>OrderNumber}'
-  @Common.FieldControl : #Mandatory
-  OrderNo : LargeString;
-  Items : Composition of many Bookshop1.OrderItems {  };
-  /** {i18n>UserID.Description} */
-  @Common.Label : '{i18n>UserID}'
-  buyer : String(255);
-  @Core.Computed : true
-  total : Decimal(9, 2);
-  /** {i18n>CurrencyCode.Description} */
-  @Common.Label : '{i18n>Currency}'
-  currency : Association to one Bookshop1.Currencies {  };
-  /** {i18n>CurrencyCode.Description} */
-  @Common.Label : '{i18n>Currency}'
-  @Common.ValueList : {
-    $Type: 'Common.ValueListType',
-    Label: '{i18n>Currency}',
-    CollectionPath: 'Currencies',
-    Parameters: [
-      {
-        $Type: 'Common.ValueListParameterInOut',
-        LocalDataProperty: currency_code,
-        ValueListProperty: 'code'
-      },
-      {
-        $Type: 'Common.ValueListParameterDisplayOnly',
-        ValueListProperty: 'name'
-      }
-    ]
-  }
-  currency_code : String(3);
-  @UI.Hidden : true
-  key IsActiveEntity : Boolean not null default true;
-  @UI.Hidden : true
-  HasActiveEntity : Boolean not null default false;
-  @UI.Hidden : true
-  HasDraftEntity : Boolean not null default false;
-  @UI.Hidden : true
-  DraftAdministrativeData : Association to one Bookshop1.DraftAdministrativeData {  };
-  SiblingEntity : Association to one Bookshop1.Orders {  };
-} actions {
-  action draftPrepare(
-    ![in] : $self,
-    SideEffectsQualifier : LargeString
-  ) returns Bookshop1.Orders;
-  action draftActivate(
-    ![in] : $self
-  ) returns Bookshop1.Orders;
-  action draftEdit(
-    ![in] : $self,
-    PreserveChanges : Boolean
-  ) returns Bookshop1.Orders;
-};
-
-@cds.external : true
-@cds.persistence.skip : true
 @UI.Identification : [
   {
     $Type: 'UI.DataField',
@@ -313,38 +220,6 @@ entity Bookshop1.Currencies {
   minorUnit : Integer;
   texts : Composition of many Bookshop1.Currencies_texts {  };
   localized : Association to one Bookshop1.Currencies_texts {  };
-};
-
-@cds.external : true
-@cds.persistence.skip : true
-@Common.DraftNode : {
-  $Type: 'Common.DraftNodeType',
-  PreparationAction: 'Bookshop1.draftPrepare'
-}
-entity Bookshop1.OrderItems {
-  @Core.ComputedDefaultValue : true
-  key ID : UUID not null;
-  parent : Association to one Bookshop1.Orders {  };
-  parent_ID : UUID;
-  book : Association to one Bookshop1.Books {  };
-  @Common.FieldControl : #Mandatory
-  book_ID : UUID;
-  quantity : Integer;
-  amount : Decimal(9, 2);
-  @UI.Hidden : true
-  key IsActiveEntity : Boolean not null default true;
-  @UI.Hidden : true
-  HasActiveEntity : Boolean not null default false;
-  @UI.Hidden : true
-  HasDraftEntity : Boolean not null default false;
-  @UI.Hidden : true
-  DraftAdministrativeData : Association to one Bookshop1.DraftAdministrativeData {  };
-  SiblingEntity : Association to one Bookshop1.OrderItems {  };
-} actions {
-  action draftPrepare(
-    ![in] : $self,
-    SideEffectsQualifier : LargeString
-  ) returns Bookshop1.OrderItems;
 };
 
 @cds.external : true
@@ -434,6 +309,5 @@ entity Bookshop1.Currencies_texts {
 };
 
 @cds.external : true
-@path : 'admin'
 service Bookshop1 {};
 
