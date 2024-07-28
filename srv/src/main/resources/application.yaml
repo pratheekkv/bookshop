@@ -33,8 +33,13 @@ spring:
   config.activate.on-profile: cloud
 cds:
   remote.services:
+    # Bookshop1:
+    #   type: "odata-v4"
+    #   destination:
+    #     name: "bookshop1"
+    #     tokenExchangeStrategy: "ForwardUserToken"
     Bookshop1:
-      type: "odata-v4"
-      destination:
-        name: "bookshop1"
-        tokenExchangeStrategy: "ForwardUserToken"
+      binding:
+        name: bookshop-auth
+        options:
+          url: https://rmtest-rmcfkvpr-myspace-bookshop1-srv.cfapps.sap.hana.ondemand.com/odata/v4
