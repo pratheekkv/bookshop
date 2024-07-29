@@ -50,7 +50,7 @@ public class BooksController {
             // Create a GET request
             HttpGet request = new HttpGet("https://rmtest-rmcfkvpr-myspace-bookshop1-srv.cfapps.sap.hana.ondemand.com/odata/v4/Bookshop1/Books");
 
-            request.setHeader(HttpHeaders.AUTHORIZATION, "Bearer" + accessToken);
+            request.setHeader(HttpHeaders.AUTHORIZATION, accessToken);
             // Execute the request
             CloseableHttpResponse response = httpClient.execute(request);
 
