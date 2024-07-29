@@ -27,16 +27,15 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
-@RestController("/books")
+@RestController
 public class BooksController {
 
     private XsuaaTokenFlows xsuaaTokenFlows;
     private String xsuaaToken;
 
-    @GetMapping("/sdk")
+    @GetMapping(value = "/sdk")
     public String getBooks(){
         try{
             String accessToken = getXSUAAAccessToken();
