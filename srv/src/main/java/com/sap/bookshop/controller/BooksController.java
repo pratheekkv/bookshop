@@ -102,6 +102,7 @@ public class BooksController {
                     xsuaaTokenFlows = new XsuaaTokenFlows(
                             new DefaultOAuth2TokenService(HttpClientFactory.create(configuration.getClientIdentity())),
                             new XsuaaDefaultEndpoints(configuration), configuration.getClientIdentity());
+                            return xsuaaTokenFlows;
                 }
             }else{
                 logger.info("XSUAA NOT FOUND");
