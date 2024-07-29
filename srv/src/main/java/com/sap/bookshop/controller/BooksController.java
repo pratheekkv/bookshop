@@ -26,6 +26,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
@@ -35,10 +37,14 @@ public class BooksController {
     private XsuaaTokenFlows xsuaaTokenFlows;
     private String xsuaaToken;
 
+    private static Logger logger = LoggerFactory.getLogger(BooksController.class);
+
     @GetMapping(value = "/sdk")
     public String getBooks(){
         try{
+            logger.info("Controller Called");
             String accessToken = getXSUAAAccessToken();
+            logger.info("Token fetched {}", accessToken);
             CloseableHttpClient httpClient = HttpClients.createDefault();
 
             // Create a GET request
@@ -87,6 +93,7 @@ public class BooksController {
         if (vcapServices != null) {
             final Service service = vcapServices.findService("xsuaa", null, null);
             if (service != null) {
+                logger.info("XSUAA FOUND");
                 final Credentials credentials = service.getCredentials();
                 final OAuth2ServiceConfigurationBuilder builder = OAuth2ServiceConfigurationBuilder
                         .forService(com.sap.cloud.security.config.Service.XSUAA);
@@ -96,6 +103,8 @@ public class BooksController {
                             new DefaultOAuth2TokenService(HttpClientFactory.create(configuration.getClientIdentity())),
                             new XsuaaDefaultEndpoints(configuration), configuration.getClientIdentity());
                 }
+            }else{
+                logger.info("XSUAA NOT FOUND");
             }
         }
 
